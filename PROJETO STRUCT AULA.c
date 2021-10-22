@@ -17,6 +17,7 @@ void imprimir   (struct cadastro *cad, int cont);
 void validaNome (struct cadastro *cad, int i);
 void validaSexo (struct cadastro *cad, int i);
 void cadastrarId(struct cadastro *cad, int i);
+void excluirId  (struct cadastro *cad, int i); //Pode ser que funcione ap√≥s criar a fun√ß√£o EDITAR
 int menu();
 
 int main(){
@@ -25,9 +26,9 @@ int main(){
 	
 	int opcao=0,cont=0, i=0;		
 	
-	do{ /* Estrutura de repetiÁ„o que executa o cÛdigo pelo menos uma vez */
+	do{ /* Estrutura de repeti√ß√£o que executa o c√≥digo pelo menos uma vez */
 		opcao = menu();
-		switch(opcao){ /*Comando condicional que compara as condiÁıes de uma variavel, utilizamos para a criaÁ„o do menu*/ 
+		switch(opcao){ /*Comando condicional que compara as condi√ß√µes de uma variavel, utilizamos para a cria√ß√£o do menu*/ 
 			case 1:
 				system("cls"); /*limpa a tela*/
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
@@ -36,13 +37,13 @@ int main(){
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
 				cadastrar(cad, i);
-				i++; /*controlador da posiÁ„o do vetor */
+				i++; /*controlador da posi√ß√£o do vetor */
 				cont++;
 				printf("\n\t\t\tCadastro realizado com sucesso!!!\n\n");				
 				system("pause");
 				break;
 			case 2:
-				/*ordenacaoVetor(); /*funÁ„o de ordenaÁ„o do vetor*/
+				/*ordenacaoVetor(); /*fun√ß√£o de ordena√ß√£o do vetor*/
 				system("cls"); /*limpa tela */
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
@@ -50,7 +51,7 @@ int main(){
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
 				imprimir (cad, cont);
-			system ("pause"); /* pause na execuÁ„o */
+			system ("pause"); /* pause na execu√ß√£o */
 				break;
 			/*case 3:
 				system("cls");
@@ -61,15 +62,16 @@ int main(){
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
 				pesquisar();		
 			system ("pause");
-				break;
-			case 4:/*
+				break;*/
+			case 4:
 				system("cls");
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
 				printf("\nXX XXX XXX XXXX   EXCLUIR USUARIOS CADASTRADOS   XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
-				excluir();	*\	
+				excluirId (cad, i);	
+				printf("\nO cadastro foi excluido com sucesso!\n\n");
 			system ("pause");
 			break;
 			case 5:/*
@@ -84,7 +86,7 @@ int main(){
 				break;*\
 			case 6:
                system("cls");
-                		printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
+                printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
 				printf("\nXX XXX XXX XXXX          REALIZAR BACKUP         XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
@@ -92,14 +94,16 @@ int main(){
 				backup();
 			system ("pause");
 				break;
+				*/
 			case 7 :
                system("cls");
-				printf("\n============================================================================================\n");
-				printf("\t\t\tSee You Later   ;-P");
-				printf("\n============================================================================================\n");
-				break;*/
+                printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
+				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
+				printf("\nXX XXX XXX XXXX        See You Later   ;-P       XX XXX XXX XXX XXX XX");
+				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
+				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
+				break;
 		}
-
 	}while(opcao !=7);
 	
 	return 0;	
@@ -191,9 +195,9 @@ void cadastrarId(struct cadastro *cad, int i){ /* funcao para cadastrar id de fo
 	int idTemp;
 	do{
 		srand(time(NULL));
-		idTemp = rand()%100000;/*geraÁ„o de um Id autom·tico por meio de numeros aleatÛrios*/
+		idTemp = rand()%100000;/*gera√ß√£o de um Id autom√°tico por meio de numeros aleat√≥rios*/
 
-	}while (idTemp == cad[i].idUsuario); /*estrutura de repeticao para repetir a funÁ„o randomica para geraÁ„o de novo id, caso essej· exista */
+	}while (idTemp == cad[i].idUsuario); /*estrutura de repeticao para repetir a fun√ß√£o randomica para gera√ß√£o de novo id, caso essej√° exista */
 
 	cad[i].idUsuario = idTemp;
 	printf("ID Usuario...................................................: %i\n", cad[i].idUsuario);
@@ -202,7 +206,7 @@ void cadastrarId(struct cadastro *cad, int i){ /* funcao para cadastrar id de fo
 
 void validaNome(struct cadastro *cad, int i){ /*funcao para validar nome*/
 	do{			
-		if (strlen(cad[i].nome[i])== 1){ /* verifica se a posicao est· vazia */
+		if (strlen(cad[i].nome[i])== 1){ /* verifica se a posicao est√° vazia */
 			printf("Este campo nao pode ser vazio\n");
 			printf("Informe seu nome.............................................: ");
 			fgets(cad[i].nome[i],sizeof(cad[i].nome[i]), stdin);
@@ -211,7 +215,7 @@ void validaNome(struct cadastro *cad, int i){ /*funcao para validar nome*/
 }
 void validaSexo(struct cadastro *cad, int i){  /*funcao para validar sexo*/
 	do{		
-		strupr(cad[i].sexo[i]); //funÁ„o que converte a string para mai˙sculo.
+		strupr(cad[i].sexo[i]); //fun√ß√£o que converte a string para mai√∫sculo.
 		if(strcmp(cad[i].sexo[i],"MASCULINO")!=0 && strcmp(cad[i].sexo[i],"FEMININO")!=0 && strcmp(cad[i].sexo[i], "NAO-DECLARADO")!=0){
 			printf("Erro, opcao invalida\n");
 			printf("Informe sexo: Masculino, Feminino ou Nao-declarado...........: ");
@@ -219,6 +223,12 @@ void validaSexo(struct cadastro *cad, int i){  /*funcao para validar sexo*/
 	   		fflush(stdin); /*limpa buffer */	   		
 		}
 	}while(strcmp(cad[i].sexo[i],"MASCULINO")!=0 && strcmp(cad[i].sexo[i],"FEMININO")!=0 && strcmp(cad[i].sexo[i], "NAO-DECLARADO")!=0);
+}
+
+void excluirId(struct cadastro *cad, int i){
+	int idTemp, idEx = NULL;
+	cad[i].idUsuario = idEx;
+	//printf("ID Excluido com sucesso!\n");
 }
 
 
