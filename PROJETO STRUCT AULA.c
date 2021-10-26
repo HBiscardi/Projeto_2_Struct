@@ -29,6 +29,8 @@ void validaVacina(struct cadastro *cad, int i);
 void validaAltura(struct cadastro *cad, int i);
 /*void ordenacaoVetor(struct cadastro *cad, int i, int cont);*/
 void editar      (struct cadastro *cad, int i, int cont);
+void excluir     (struct cadastro *cad, int i, int cont);
+void excluirId   (struct cadastro *cad, int i);
 int menu();
 
 int main(){
@@ -81,6 +83,7 @@ int main(){
 				printf("\nXX XXX XXX XXXX   EXCLUIR USUARIOS CADASTRADOS   XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
+				excluir(cad, i, cont);
 				/*excluir(cad, i,cont);*/
 			system ("pause");
 			break;
@@ -297,4 +300,30 @@ void editar(struct cadastro *cad, int i, int cont){
 	}
 }
 
+void excluir(struct cadastro *cad, int i, int cont){
+	int id, identificador=0, opcao=0;	
+	printf("Informe o Id do cadastro a ser excluido: ");
+	scanf("%d", &id);
+	fflush(stdin);
+	for(i=0; i < cont; i++){
+		if(	cad[i].idUsuario == id){				
+			excluirId(cad, i);
+			//cadastrarEmail();
+			//cadastrarSexo();
+			//cadastrarVacina();
+			//cadastrarEndereco();
+			//cadastrarAltura();
+			identificador ++;
+			printf("\t\t\tCadastro excluido com sucesso!\n\n");		
+		}
+	}
+	if(identificador == 0){
+		printf("\t\tId nao foi localizado!\n");	
+	}			
+}
 
+void excluirId(struct cadastro *cad, int i){
+	int idTemp, idEx = NULL;
+	cad[i].idUsuario = idEx;
+	//printf("ID Excluido com sucesso!\n");
+}
