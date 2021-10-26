@@ -2,22 +2,33 @@
 #include<stdlib.h>
 #include<string.h>
 
-struct cadastro{
+struct endereco{
+	char rua[40];
+	int numero;
+	char bairro[40];
+	char cidade[40];
+	char estado[3];
+	char cep[15];	
+};
+struct cadastro{	
 	int idUsuario;	
 	char nome[1000][50];	
 	char eMail[1000][50];
 	char sexo[1000][10]; 
-	char endereco[1000][150];
+	struct endereco end;	
 	double altura;
 	int vacina;	
 }cadastro;
 
-void cadastrar  (struct cadastro *cad, int i);
-void imprimir   (struct cadastro *cad, int cont);
-void validaNome (struct cadastro *cad, int i);
-void validaSexo (struct cadastro *cad, int i);
-void cadastrarId(struct cadastro *cad, int i);
-void excluirId  (struct cadastro *cad, int i); //Pode ser que funcione após criar a função EDITAR
+void cadastrar   (struct cadastro *cad, int i);
+void imprimir    (struct cadastro *cad, int cont);
+void validaNome  (struct cadastro *cad, int i);
+void validaSexo  (struct cadastro *cad, int i);
+void cadastrarId (struct cadastro *cad, int i);
+void validaVacina(struct cadastro *cad, int i);
+void validaAltura(struct cadastro *cad, int i);
+/*void ordenacaoVetor(struct cadastro *cad, int i, int cont);*/
+void editar      (struct cadastro *cad, int i, int cont);
 int menu();
 
 int main(){
@@ -43,7 +54,7 @@ int main(){
 				system("pause");
 				break;
 			case 2:
-				/*ordenacaoVetor(); /*função de ordenação do vetor*/
+				/*ordenacaoVetor(cad, i, cont); /*função de ordenação do vetor*/
 				system("cls"); /*limpa tela */
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
@@ -53,16 +64,16 @@ int main(){
 				imprimir (cad, cont);
 			system ("pause"); /* pause na execução */
 				break;
-			/*case 3:
+			case 3:
 				system("cls");
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
 				printf("\nXX XXX XXX XXXX  PESQUISAR USUARIOS CADASTRADOS  XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
-				pesquisar();		
-			system ("pause");
-				break;*/
+				/*pesquisar();	*/	
+				system ("pause");
+				break;
 			case 4:
 				system("cls");
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
@@ -70,40 +81,38 @@ int main(){
 				printf("\nXX XXX XXX XXXX   EXCLUIR USUARIOS CADASTRADOS   XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
-				excluirId (cad, i);	
-				printf("\nO cadastro foi excluido com sucesso!\n\n");
+				/*excluir(cad, i,cont);*/
 			system ("pause");
 			break;
-			case 5:/*
+			case 5:
 				system("cls");
 				printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
 				printf("\nXX XXX XXX XXXX    EDITAR USUARIOS CADASTRADOS   XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
-				editar();
+				editar(cad, i, cont);
 			system ("pause");
-				break;*\
+				break;
 			case 6:
-               system("cls");
+                system("cls");
                 printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
 				printf("\nXX XXX XXX XXXX          REALIZAR BACKUP         XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
-				backup();
+				/*backup();*/
 			system ("pause");
 				break;
-				*/
 			case 7 :
                system("cls");
                 printf("\n XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXX");
 				printf("\nX XXXXX X XXXXX                                  X XXXXX X XXXXX X XXX");
-				printf("\nXX XXX XXX XXXX        See You Later   ;-P       XX XXX XXX XXX XXX XX");
+				printf("\nXX XXX XXX XXXX        SEE YOU LATER ;-P         XX XXX XXX XXX XXX XX");
 				printf("\nXXX X XXXXX XXX                                  XXX X XXXXX X XXXXX X");
 				printf("\nXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXXX XXXXXXX XXXXXXX XXXXXXX XXXXXXX \n\n");
 				break;
-		}
+			}
 	}while(opcao !=7);
 	
 	return 0;	
@@ -129,15 +138,34 @@ void cadastrar (struct cadastro *cad, int i){
 		
 		printf("Tomou vacina:[1] sim [2] nao: ");
 		scanf("%d", &cad[i].vacina);
-		fflush(stdin);		
-				
-		printf("Informe seu Endereco.............................................: ");
-		fgets(cad[i].endereco[i],sizeof(cad[i].endereco[i]), stdin);
-		fflush(stdin);
+		validaVacina(cad, i);
+		fflush(stdin);	
 		
 		printf("Informe seu altura.............................................: ");
 		scanf("%lf", &cad[i].altura);
+		validaAltura(cad,i);
+		fflush(stdin);	
+					
+		printf("Informe seu Endereco.............................................\n");
+		printf("Rua.............................................................: ");
+		fgets(cad[i].end.rua,sizeof(cad[i].end.rua), stdin);
+		fflush(stdin);
+		printf("Numero..........................................................: ");
+		scanf("%i", &cad[i].end.numero);
+		fflush(stdin);
+		printf("Bairro..........................................................: ");
+		fgets(cad[i].end.bairro,sizeof(cad[i].end.bairro), stdin);
+		fflush(stdin);	
+		printf("cidade..........................................................: ");
+		fgets(cad[i].end.bairro,sizeof(cad[i].end.bairro), stdin);
+		fflush(stdin);	
+		printf("Estado..........................................................: ");
+		fgets(cad[i].end.estado,sizeof(cad[i].end.estado), stdin);
+		fflush(stdin);	
+		printf("Cep...........................................................: ");
+		fgets(cad[i].end.cep, sizeof(cad[i].end.cep), stdin);
 		fflush(stdin);			
+				
 		
 		printf("\n");	
 	}		
@@ -147,8 +175,8 @@ void imprimir (struct cadastro *cad, int cont){
 	for(i=0;i<cont;i++){
 		if(cad[i].idUsuario!= 0){
 			printf("\tID Usuario.............................................: %i\n",cad[i].idUsuario);
-			printf("\tNome...................................................: %s\n",cad[i].nome[i]);
-			printf("\tEmail cadastrado.......................................: %s\n",cad[i].eMail[i]);
+			printf("\tNome...................................................: %s",cad[i].nome[i]);
+			printf("\tEmail cadastrado.......................................: %s",cad[i].eMail[i]);
 			printf("\tSexo...................................................: %s\n",cad[i].sexo[i]);
 			printf("\tTomou vacina?..........................................: ");					
 			if(cad[i].vacina == 1){/*condicional bolleana*/
@@ -156,8 +184,13 @@ void imprimir (struct cadastro *cad, int cont){
 			}else{
 				printf("NAO\n");
 			}
-			printf("\tEndereco...............................................: %s", cad[i].endereco[i]);
-			printf("\tAltura.................................................:  %.2f\n", cad[i].altura);
+			printf("\tAltura.................................................: %.2f\n", cad[i].altura);
+			printf("\tEndereco................................................\n");
+			printf("\t\tRua............................................: %s ", cad[i].end.rua);
+			printf("\t\tNumero.........................................: %i \n", cad[i].end.numero);
+			printf("\t\tBairro.........................................: %i \n", cad[i].end.bairro);
+			printf("\t\tCidade.........................................: %i \n", cad[i].end.cidade);
+			printf("\t\tEstado.........................................: %i \n", cad[i].end.estado);				
 			printf("\n");					
 		}	
 	}			
@@ -191,7 +224,7 @@ system ("cls");
 	}while(opcao == 0);
 return opcao;
 }
-void cadastrarId(struct cadastro *cad, int i){ /* funcao para cadastrar id de forma randomica */
+void cadastrarId(struct cadastro *cad, int i){ /* funcao para validar id de forma randomica */
 	int idTemp;
 	do{
 		srand(time(NULL));
@@ -202,8 +235,6 @@ void cadastrarId(struct cadastro *cad, int i){ /* funcao para cadastrar id de fo
 	cad[i].idUsuario = idTemp;
 	printf("ID Usuario...................................................: %i\n", cad[i].idUsuario);
 }
-
-
 void validaNome(struct cadastro *cad, int i){ /*funcao para validar nome*/
 	do{			
 		if (strlen(cad[i].nome[i])== 1){ /* verifica se a posicao está vazia */
@@ -224,12 +255,46 @@ void validaSexo(struct cadastro *cad, int i){  /*funcao para validar sexo*/
 		}
 	}while(strcmp(cad[i].sexo[i],"MASCULINO")!=0 && strcmp(cad[i].sexo[i],"FEMININO")!=0 && strcmp(cad[i].sexo[i], "NAO-DECLARADO")!=0);
 }
-
-void excluirId(struct cadastro *cad, int i){
-	int idTemp, idEx = NULL;
-	cad[i].idUsuario = idEx;
-	//printf("ID Excluido com sucesso!\n");
+void validaVacina(struct cadastro *cad, int i){ /*funcao bolleana para verificar o cadastro da vacina */
+	do{		
+		if (cad[i].vacina < 1 || cad[i].vacina > 2){
+			printf("Erro, opcao invalida\n");
+			printf("Tomou a vacina? digite [1] para SIM ou [2] para NAO..........: ");
+			scanf("%d", &cad[i].vacina);
+		}
+	}while(cad[i].vacina < 1 || cad[i].vacina > 2);
+}
+void validaAltura(struct cadastro *cad, int i){/*funcao para cadastrar altura*/
+	do{		
+		if (cad[i].altura < 0.5 || cad[i].altura > 2){
+			fflush(stdin);			
+			printf("Erro, altura invalida\n");
+			printf("valor não pode ser inferior a 0.5 mt ou superior a 2.00 mts\n");
+			printf("Informe sua altura separada por '.'ponto: ex: 1.60...........: ");
+			scanf("%lf", &cad[i].altura);
+			fflush(stdin);
+		}
+	}while(cad[i].altura < 0.5 || cad[i].altura > 2);
 }
 
+void editar(struct cadastro *cad, int i, int cont){
+	
+	int id, identificador=0, opcao=0;	
+	
+	printf("Informe o Id do cadastro a ser editado: "); 
+	scanf("%d", &id); 
+	fflush(stdin);
+
+	for(i=0; i < cont; i++){ 
+		if(	cad[i].idUsuario == id){				
+			cadastrar(cad, i);
+			identificador++; 		
+			printf("\t\t\tCadastro editado com sucesso!\n\n");		
+		}
+	}
+	if(identificador == 0){
+		printf("Id nao foi localizada!\n");
+	}
+}
 
 
