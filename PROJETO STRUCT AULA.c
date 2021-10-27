@@ -149,7 +149,7 @@ void cadastrar (struct cadastro *cad, int i){
 		validaAltura(cad,i);
 		fflush(stdin);	
 					
-		printf("Informe seu Endereco.............................................\n");
+		printf("Informe seu Endereco:\n");
 		printf("Rua.............................................................: ");
 		fgets(cad[i].end.rua,sizeof(cad[i].end.rua), stdin);
 		fflush(stdin);
@@ -159,17 +159,15 @@ void cadastrar (struct cadastro *cad, int i){
 		printf("Bairro..........................................................: ");
 		fgets(cad[i].end.bairro,sizeof(cad[i].end.bairro), stdin);
 		fflush(stdin);	
-		printf("cidade..........................................................: ");
-		fgets(cad[i].end.bairro,sizeof(cad[i].end.bairro), stdin);
+		printf("Cidade..........................................................: ");
+		fgets(cad[i].end.cidade,sizeof(cad[i].end.cidade), stdin);
 		fflush(stdin);	
 		printf("Estado..........................................................: ");
 		fgets(cad[i].end.estado,sizeof(cad[i].end.estado), stdin);
 		fflush(stdin);	
-		printf("Cep...........................................................: ");
+		printf("Cep.............................................................: ");
 		fgets(cad[i].end.cep, sizeof(cad[i].end.cep), stdin);
-		fflush(stdin);			
-				
-		
+		fflush(stdin);		
 		printf("\n");	
 	}		
 void imprimir (struct cadastro *cad, int cont){
@@ -188,13 +186,14 @@ void imprimir (struct cadastro *cad, int cont){
 				printf("NAO\n");
 			}
 			printf("\tAltura.................................................: %.2f\n", cad[i].altura);
-			printf("\tEndereco................................................\n");
-			printf("\t\tRua............................................: %s ", cad[i].end.rua);
-			printf("\t\tNumero.........................................: %i \n", cad[i].end.numero);
-			printf("\t\tBairro.........................................: %i \n", cad[i].end.bairro);
-			printf("\t\tCidade.........................................: %i \n", cad[i].end.cidade);
-			printf("\t\tEstado.........................................: %i \n", cad[i].end.estado);				
-			printf("\n");					
+			printf("\tEndereco:\n");
+			printf("\t\tRua....................................: %s ", cad[i].end.rua);
+			printf("\t\tNumero.................................: %i \n", cad[i].end.numero);
+			printf("\t\tBairro.................................: %s \n", cad[i].end.bairro);
+			printf("\t\tCidade.................................: %s \n", cad[i].end.cidade);
+			printf("\t\tEstado.................................: %s \n", cad[i].end.estado);
+			printf("\t\tCEP....................................: %s \n", cad[i].end.cep);				
+			printf("\n");
 		}	
 	}			
 }
@@ -327,3 +326,4 @@ void excluirId(struct cadastro *cad, int i){
 	cad[i].idUsuario = idEx;
 	//printf("ID Excluido com sucesso!\n");
 }
+
